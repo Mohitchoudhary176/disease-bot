@@ -1,11 +1,10 @@
 import streamlit as st
-from openai import OpenAI
-
-client = OpenAI()
+import openai
+import os
 
 
 # Initialize client
-client = openai(api_key="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")
+openai.api_key = os.getenv(api_key="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")
 
 st.title("🩺 AI Medical Assistant (English + Hinglish)")
 st.write("Type your **symptoms** OR upload a **medical report image**.")
@@ -18,7 +17,7 @@ uploaded_file = st.file_uploader("📤 Upload your report (JPG/PNG only)", type=
 
 # Process text input
 if user_input:
-    response = client.chat.completions.create(
+    response = openai.chat.completions.create(
         model="gpt-4o-mini",  
         messages=[
             {"role": "system", "content": "You are a friendly AI doctor. Reply in English or Hinglish. "
@@ -33,7 +32,7 @@ if user_input:
 # Process uploaded report image
 if uploaded_file:
     st.image(uploaded_file, caption="Uploaded Report", use_column_width=True)
-    response = client.chat.completions.create(
+    response = openai.chat.completions.create(
         model="gpt-4.1",  # vision-supported model
         messages=[
             {"role": "system", "content": "You are a medical AI. Analyze lab reports and explain in simple English + Hinglish. "
@@ -48,6 +47,7 @@ if uploaded_file:
         ]
     )
     st.write("📄 Report Analysis:", response.choices[0].message.content)
+
 
 
 
