@@ -1,5 +1,8 @@
 import streamlit as st
-from openai import openai
+from openai import OpenAI
+
+client = OpenAI()
+
 
 # Initialize client
 client = openai(api_key="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")
@@ -45,5 +48,6 @@ if uploaded_file:
         ]
     )
     st.write("📄 Report Analysis:", response.choices[0].message.content)
+
 
 
