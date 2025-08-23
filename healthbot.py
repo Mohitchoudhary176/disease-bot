@@ -4,7 +4,7 @@ import os
 
 
 # Initialize client
-openai.api_key = os.getenv(api_key="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")
+openai.api_key = os.getenv("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")
 
 st.title("🩺 AI Medical Assistant (English + Hinglish)")
 st.write("Type your **symptoms** OR upload a **medical report image**.")
@@ -47,6 +47,7 @@ if uploaded_file:
         ]
     )
     st.write("📄 Report Analysis:", response.choices[0].message.content)
+
 
 
 
