@@ -5,7 +5,8 @@ import os
 st.set_page_config(page_title="Health Bot", layout="centered")
 
 # Load API Key from Streamlit Secrets
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+
 
 st.title("💊 AI Health Assistant")
 st.write("Describe your symptoms or ask any health question.")
@@ -50,6 +51,7 @@ if user_input:
     # Display bot reply
     with st.chat_message("assistant"):
         st.write(bot_reply)
+
 
 
 
