@@ -1,10 +1,8 @@
-import os
 import streamlit as st
 from openai import OpenAI
-from PIL import Image
+import os
 
-# Load API Key securely
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 st.set_page_config(page_title="Disease Bot")
 st.title("🩺 Disease Detection Chatbot")
@@ -29,17 +27,19 @@ if user_input:
         st.write(user_input)
 
     # AI Response
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": user_input}]
-    )
+   response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": user_input}]
+)
 
-    reply = response.choices[0].message.content
+bot_reply = response.choices[0].message["content"]
+
 
     st.session_state.messages.append({"role": "assistant", "content": reply})
 
     with st.chat_message("assistant"):
         st.write(reply)
+
 
 
 
