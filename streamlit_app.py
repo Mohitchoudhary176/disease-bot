@@ -8,9 +8,9 @@ from datetime import datetime
 # Use Streamlit secrets or environment variable for key
 OPENAI_KEY = None
 if "OPENAI_API_KEY" in st.secrets:
-    OPENAI_KEY = st.secrets["sk-proj-yoMf3e-pD-ZsBoFYVfO3Q_-MshfMRONeqLga9RBtzjJEHwz580VU8vimQm-pE9aa2vcnihhvmIT3BlbkFJCIF8SaOgvISoBeOlgWjJLOS9FXNNZfIPxOjhtt1zX5X5X-OJ0ktiGbCKYjbdmG2lyz3Ic_ER0Astreamlit run healthbot.pyY"]
+    OPENAI_KEY = st.secrets["OPENAI_API_KEY"]
 else:
-    OPENAI_KEY = os.environ.get("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")
+    OPENAI_KEY = os.environ.get("OPENAI_API_KEY")
 
 if not OPENAI_KEY:
     st.error("OpenAI API key not found. Add OPENAI_API_KEY in Streamlit Secrets or environment.")
@@ -162,6 +162,7 @@ if user_text:
     save_message(conn, "assistant", bot_reply)
     st.session_state.history.append({"role": "assistant", "content": bot_reply})
     st.chat_message("assistant").markdown(bot_reply)
+
 
 
 
