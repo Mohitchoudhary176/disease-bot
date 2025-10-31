@@ -5,41 +5,44 @@ from openai import OpenAI
 client = OpenAI()
 
 st.title("Disease Bot")
-st.write("Ask any question about symptoms or diseases.")
+st.write("Ask anything related to symptoms or diseases. (Educational info only)")
+
+# ✅ Initialize chat history in session_state
+if "messages" not in st.session_state:
+    st.session_state.messages = [
+        {"role": "system", "content": "You are a medical helper. Provide safe, helpful, non-diagnostic advice."}
+    ]
+
+# ✅ Show chat history on screen
+for msg in st.session_state.messages:
+    if msg["role"] == "user":
+        st.write(f"🧑 **You:** {msg['content']}")
+    elif msg["role"] == "assistant":
+        st.write(f"🤖 **Bot:** {msg['content']}")
 
 # User input box
-user_input = st.text_input("Enter your question here:")
+user_input = st.text_input("Type your question:")
 
-# Only call API if user typed something
+# ✅ When user submits
 if user_input:
+    # Add user message to history
+    st.session_state.messages.append({"role": "user", "content": user_input})
+
     try:
-        # Call OpenAI chat completion
+        # Call OpenAI with full conversation history
         response = client.chat.completions.create(
             model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": "You are a medical helper. Provide safe, helpful, non-diagnostic advice."},
-                {"role": "user", "content": user_input}
-            ]
+            messages=st.session_state.messages
         )
 
-        # ✅ NEW response format (replaces old message["content"])
         bot_reply = response.choices[0].message.content
 
-        st.write("### 🤖 Bot Reply:")
-        st.write(bot_reply)
+        # Add bot reply to history
+        st.session_state.messages.append({"role": "assistant", "content": bot_reply})
+
+        # Show immediately
+        st.write(f"🤖 **Bot:** {bot_reply}")
 
     except Exception as e:
-        st.error("Something went wrong while contacting OpenAI API.")
+        st.error("Error contacting OpenAI API")
         st.exception(e)
-
-
-
-
-
-
-
-
-
-
-
-
