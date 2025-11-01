@@ -1,6 +1,9 @@
-openai>=1.12.0
-python-dotenv
 streamlit
+openai>=1.12.0
 Pillow
+fpdf
+python-multipart
+
+
 
 
